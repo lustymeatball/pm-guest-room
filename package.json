@@ -1,0 +1,117 @@
+{
+  "name": "proxmox-commander",
+  "productName": "PM - Guest Room",
+  "version": "1.1.0",
+  "description": "PM - Guest Room: a desktop management client for Proxmox VE",
+  "main": "src/main/main.js",
+  "scripts": {
+    "build": "node build.mjs",
+    "start": "node build.mjs && electron .",
+    "dev": "node build.mjs --watch",
+    "dist": "node build.mjs && electron-builder --win",
+    "dist:linux": "node build.mjs && electron-builder --linux",
+    "dist:linux-win": "node build.mjs && electron-builder --linux dir && python scripts/pack-linux.py"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "PM - Guest Room",
+    "email": "pm-guest-room@localhost"
+  },
+  "build": {
+    "appId": "app.pmguestroom.desktop",
+    "productName": "PM - Guest Room",
+    "copyright": "PM - Guest Room",
+    "directories": {
+      "output": "release",
+      "buildResources": "assets"
+    },
+    "files": [
+      "src/main/**",
+      "dist/**",
+      "assets/icon.png",
+      "package.json"
+    ],
+    "win": {
+      "icon": "assets/icon.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "PM - Guest Room",
+      "artifactName": "PM-Guest-Room-Setup-${version}.${ext}"
+    },
+    "portable": {
+      "artifactName": "PM-Guest-Room-Portable-${version}.${ext}"
+    },
+    "linux": {
+      "icon": "assets/icon.png",
+      "category": "System",
+      "executableName": "pm-guest-room",
+      "synopsis": "Desktop client for Proxmox VE",
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "tar.gz",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "deb",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "PM-Guest-Room-${version}-linux-${arch}.${ext}"
+    },
+    "deb": {
+      "depends": [
+        "libgtk-3-0",
+        "libnss3",
+        "libxss1",
+        "libxtst6",
+        "xdg-utils",
+        "libatspi2.0-0",
+        "libuuid1",
+        "libsecret-1-0"
+      ]
+    }
+  },
+  "dependencies": {
+    "ws": "^8.22.2"
+  },
+  "devDependencies": {
+    "@novnc/novnc": "^1.4.0",
+    "@xterm/addon-fit": "^0.10.0",
+    "@xterm/xterm": "^5.5.0",
+    "electron": "^33.4.11",
+    "electron-builder": "^25.1.8",
+    "esbuild": "^0.24.2",
+    "lucide-react": "^0.460.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}
